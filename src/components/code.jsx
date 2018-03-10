@@ -3,6 +3,9 @@ import fire from "../firebase/config";
 
 import { Message } from "./message";
 
+import AceEditor from 'react-ace';
+import 'brace/theme/monokai';
+
 export class Code extends React.Component {
     constructor (props) {
         super(props);
@@ -43,9 +46,16 @@ export class Code extends React.Component {
                 </div>
                 <div className="form-group">
                     <label htmlFor="exampleTextarea">Code</label>
-                    <span name="code" className="form-control" id="code" rows="12">
-                        {this.state.code}
-                    </span>
+                    <AceEditor
+                        mode={ this.state.language }
+                        theme="monokai"
+                        fontSize={14}
+                        showPrintMargin={true}
+                        highlightActiveLine={true}
+                        name="UNIQUE_ID_OF_DIV"
+                        editorProps={{$blockScrolling: true}}
+                        value={ this.state.code }
+                        />
                 </div>
 
                 <button type="submit" className="btn btn-primary">Save snippet</button>

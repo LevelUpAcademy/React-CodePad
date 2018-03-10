@@ -3,6 +3,10 @@ import fire from "../firebase/config";
 
 import { Message } from "./message";
 
+import AceEditor from 'react-ace';
+import 'brace/theme/monokai';
+
+
 export class New extends React.Component {
     constructor(props) {
         super(props);
@@ -17,6 +21,7 @@ export class New extends React.Component {
         // Binding events
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.onChange = this.onChange.bind(this);
     }
 
     componentDidMount() {
@@ -40,13 +45,21 @@ export class New extends React.Component {
             this.setState({
                 title: "",
                 code: "",
-                language: ""
+                language: "",
+                message: ""
             });
             this.props.history.push(`/${results.key}`)
         })
         
         event.preventDefault();
         
+    }
+
+    onChange(newValue){
+        console.log(newValue);
+        this.setState({
+            code: newValue
+        });
     }
 
 
@@ -61,16 +74,40 @@ export class New extends React.Component {
                 <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Language</label>
                     <select name="language" value={this.state.language} onChange={this.handleChange} className="form-control" id="language">
-                        <option value="Javascript">Javascript</option>
-                        <option value="C#">C#</option>
-                        <option value="Python">Python</option>
-                        <option value="Ruby">Ruby</option>
-                        <option value="Swift">Swift</option>
+                        <option value="javascript">Javascript</option>
+                        <option value="java">Java</option>
+                        <option value="python">Python</option>
+                        <option value="xml">XML</option>
+                        <option value="ruby">Ruby</option>
+                        <option value="sass">Sass</option>
+                        <option value="mysql">MySql</option>
+                        <option value="json">Json</option>
+                        <option value="html">HTML</option>
+                        <option value="csharp">C#</option>
+                        <option value="typescript">Typescript</option>
+                        <option value="css">CSS</option>
                     </select>
                 </div>
                 <div className="form-group">
                     <label htmlFor="exampleTextarea">Code</label>
-                    <textarea name="code" value={this.state.code} onChange={this.handleChange} className="form-control" id="code" rows="12"></textarea>
+                    <AceEditor
+                        mode={ this.state.language }
+                        theme="monokai"
+                        onChange={this.onChange}
+                        fontSize={14}
+                        showPrintMargin={true}
+                        highlightActiveLine={true}
+                        name="UNIQUE_ID_OF_DIV"
+                        editorProps={{$blockScrolling: true}}
+                        value={ this.state.code }
+                        setOptions={{
+                            enableBasicAutocompletion: false,
+                            enableLiveAutocompletion: false,
+                            enableSnippets: false,
+                            showLineNumbers: true,
+                            tabSize: 2,
+                            }}
+                        />
                 </div>
                 <Message message={this.state.message} />
                 
